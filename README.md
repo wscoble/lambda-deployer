@@ -1,1 +1,1 @@
-# gochefit-deployer
+# AWS Lambda Deployer
