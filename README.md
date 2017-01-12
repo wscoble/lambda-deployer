@@ -2,4 +2,4 @@
 
 Documentation coming soon.
 
-`lambda-deploy` for help.
+`lambda-deployer` for help.
