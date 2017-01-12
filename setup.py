@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 with open('README.md') as readme_file:
     README = readme_file.read()
@@ -11,13 +10,13 @@ with open('requirements.txt') as requirements_file:
 
 
 setup(
-    name='lambda-deploy',
+    name='lambda-deployer',
     version='0.1.0',
     description="Deployer for lambda services",
     long_description=README,
     author="Scott Scoble",
     author_email='scott@scoble.tech',
-    url='https://github.com/wscoble/lambda-deploy',
+    url='https://github.com/wscoble/lambda-deployer',
     packages=find_packages(exclude=['tests']),
     install_requires=install_requires,
     license="Apache License 2.0",
@@ -27,7 +26,7 @@ setup(
     keywords='chefit',
     entry_points={
         'console_scripts': [
-            'lambda-deploy = deployer.cli:main',
+            'lambda-deployer = deployer.cli:main',
         ]
     },
     classifiers=[
