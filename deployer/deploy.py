@@ -1,12 +1,13 @@
 # global imports
-import boto3
-from botocore.exceptions import ClientError
 import hashlib
 import os
 import subprocess
 import sys
-import virtualenv
 import zipfile
+
+import boto3
+import virtualenv
+from botocore.exceptions import ClientError
 
 # deployer imports
 import compat
@@ -52,7 +53,7 @@ def create_deploy_artifact(project_dir):
     if has_at_least_one_package(requirements_file) and not \
             os.path.isfile(deployment_package_filename):
         p = subprocess.Popen([pip_exe, 'install', '-r', requirements_file],
-                              stdout=subprocess.PIPE)
+                             stdout=subprocess.PIPE)
         p.communicate()
 
     # Handle new virtualenv dependencies
@@ -106,7 +107,14 @@ def deploy_existing_function(config, code_file, existing_function):
     client = boto3.client('lambda')
 
     # update configuration without the Publish key
-    client.update_function_configuration(**{k:v for k,v in config.iteritems() if k != 'Publish'})
+    configuration = {k: v for k, v in config.iteritems() if k != 'Publish'}
+    if 'VpcConfig' not in configuration.keys():
+        configuration['VpcConfig'] = {
+            'SubnetIds': [],
+            'SecurityGroupIds': []
+        }
+
+    client.update_function_configuration(**configuration)
 
     # update code
     with open(code_file, 'rb') as c:
